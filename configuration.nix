@@ -4,12 +4,17 @@
 
 { config, pkgs, ... }:
 
+let
+  home-manager = builtins.fetchTarball "https://github.com/nix-community/home-manager/archive/master.tar.gz";
+  plasma-manager = builtins.fetchTarball "https://github.com/nix-community/plasma-manager/archive/trunk.tar.gz";
+in
 {
-  imports =
-    [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-      <home-manager/nixos>
-    ];
+  imports = [
+    ./hardware-configuration.nix
+    (import "${home-manager}/nixos")
+  ];
+  
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
@@ -36,7 +41,16 @@
   services.xserver.enable = true;
 
   # Enable the KDE Plasma Desktop Environment.
-  services.displayManager.sddm.enable = true;
+  services.displayManager.sddm = {
+  enable = true;
+  wayland.enable = true;
+  theme = "breeze";
+  settings = {
+    General = {
+      background = "/etc/nixos/wallpapers/brown.jpg";
+    };
+  };
+};
   services.desktopManager.plasma6.enable = true;
 
   # Configure keymap in X11
@@ -54,19 +68,42 @@
   # Enable sound with pipewire.
   services.pulseaudio.enable = false;
   security.rtkit.enable = true;
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    alsa.support32Bit = true;
-    pulse.enable = true;
-    # If you want to use JACK applications, uncomment this
-    #jack.enable = true;
-
-    # use the example session manager (no others are packaged yet so this is enabled by default,
-    # no need to redefine it in your config for now)
-    #media-session.enable = true;
+services.pipewire = {
+  enable = true;
+  alsa.enable = true;
+  pulse.enable = true;
+  
+  # Suppression de bruit
+  extraConfig.pipewire."92-low-latency" = {
+    "context.modules" = [
+      {
+        name = "libpipewire-module-filter-chain";
+        args = {
+          "node.description" = "Noise Cancelling source";
+          "media.name" = "Noise Cancelling source";
+          "filter.graph" = {
+  nodes = [
+    {
+      type = "ladspa";
+      name = "rnnoise";
+      plugin = "${pkgs.rnnoise-plugin}/lib/ladspa/librnnoise_ladspa.so";
+      label = "noise_suppressor_stereo";
+      control = {
+        "VAD Threshold (%)" = 95;  # Plus élevé = plus agressif (défaut: 50)
+      };
+    }
+  ];
+};
+          "capture.props" = {
+            "node.name" = "capture.rnnoise_source";
+            "node.passive" = true;
+            "audio.rate" = 48000;
+          };
+        };
+      }
+    ];
   };
-
+};
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
 
@@ -77,7 +114,15 @@
     extraGroups = [ "networkmanager" "wheel" ];
     packages = with pkgs; [
       kdePackages.kate
-    #  thunderbird
+    ];
+  };
+
+  users.users.karelsvbd = {
+    isNormalUser = true;
+    description = "Karel";
+    extraGroups = [ "networkmanager" "wheel" ];
+    packages = with pkgs; [
+      kdePackages.kate
     ];
   };
 
@@ -94,7 +139,7 @@
   nix.gc = {
     automatic = true;
     dates = "weekly";
-    options = "--delete-older-than 30d";
+    options = "--delete-older-than 10d";
   };
 
   nix.optimise = {
@@ -102,20 +147,147 @@
     dates = [ "weekly" ];
   };
 
-
   # Install firefox.
   programs.firefox.enable = true;
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
-  home-manager.users.veks = { pkgs, ... }: {
-  home.stateVersion = "25.05";
+  
 
-  programs.git = {
+  home-manager.users.veks = { pkgs, ... }: {
+    imports = [
+      "${plasma-manager}/modules"
+    ];
+
+    home.stateVersion = "25.05";
+
+    programs.plasma = {
       enable = true;
-      userName = "Relka-Dev";
-      userEmail = "relka.dev@gmail.com";
+      workspace.wallpaper = /etc/nixos/wallpapers/black-gray.png;
+    
+      workspace.colorScheme = "BreezeDark";
+  
+      configFile = {
+        "kdeglobals"."Colors:Window"."AccentColor" = "255,0,0";
+        "kdeglobals"."Colors:View"."AccentColor" = "255,0,0";
+        "kdeglobals"."Colors:Button"."AccentColor" = "255,0,0";
+        "kdeglobals"."Colors:Selection"."AccentColor" = "255,0,0";
+        "kdeglobals"."General"."AccentColor" = "255,0,0";
+      };
+
+      panels = [
+        {
+          location = "top";
+          screen = "all";
+          floating = false;
+          hiding = "none";
+          height = 38;
+          widgets = [
+            "org.kde.plasma.kickoff"
+            "org.kde.plasma.icontasks"
+            "org.kde.plasma.panelspacer"
+            {
+              digitalClock = {
+                time = {
+                  format = "24h";
+                  showSeconds = "never";
+                };
+                date = {
+                  enable = false;
+                };
+              };
+            }
+            "org.kde.plasma.panelspacer"
+            "org.kde.plasma.systemtray"
+            "org.kde.plasma.showdesktop"
+          ];
+        }
+      ];
+    };
+
+    programs.git = {
+      enable = true;
+      settings.user.name = "Relka-Dev";
+      settings.user.email = "relka.dev@gmail.com";
+    };
+
+    programs.ssh = {
+      enable = true;
+      matchBlocks = {
+        "github.com" = {
+          identityFile = "~/.ssh/id_ed25519";
+          user = "git";
+        };
+      };
+    };
+  };
+
+  home-manager.users.karelsvbd = { pkgs, ... }: {
+    imports = [
+      "${plasma-manager}/modules"
+    ];
+
+    home.stateVersion = "25.05";
+
+    programs.plasma = {
+      enable = true;
+      workspace.wallpaper = /etc/nixos/wallpapers/black-gray.png;
+
+      workspace.colorScheme = "BreezeDark";
+  
+      configFile = {
+        "kdeglobals"."Colors:Window"."AccentColor" = "255,0,0";
+        "kdeglobals"."Colors:View"."AccentColor" = "255,0,0";
+        "kdeglobals"."Colors:Button"."AccentColor" = "255,0,0";
+        "kdeglobals"."Colors:Selection"."AccentColor" = "255,0,0";
+        "kdeglobals"."General"."AccentColor" = "255,0,0";
+      };
+      
+      panels = [
+        {
+          location = "top";
+          screen = "all";
+          floating = false;
+          hiding = "none";
+          height = 38;
+          widgets = [
+            "org.kde.plasma.kickoff"
+            "org.kde.plasma.icontasks"
+            "org.kde.plasma.panelspacer"
+            {
+              digitalClock = {
+                time = {
+                  format = "24h";
+                  showSeconds = "never";
+                };
+                date = {
+                  enable = false;
+                };
+              };
+            }
+            "org.kde.plasma.panelspacer"
+            "org.kde.plasma.systemtray"
+            "org.kde.plasma.showdesktop"
+          ];
+        }
+      ];
+    };
+
+    programs.git = {
+      enable = true;
+      settings.user.name = "Relka-Dev";
+      settings.user.email = "relka.dev@gmail.com";
+    };
+
+    programs.ssh = {
+      enable = true;
+      matchBlocks = {
+        "github.com" = {
+          identityFile = "~/.ssh/id_ed25519";
+          user = "git";
+        };
+      };
     };
   };
 
@@ -128,15 +300,19 @@
 	  discord
 	  steam
 	  vscode
-	  jetbrains.idea-ultimate
-	  protonup-qt
+	  jetbrains.idea
+	  protonplus
     fastfetch
+    krita-unwrapped
   ];
 
   programs.steam = {
     enable = true;
     remotePlay.openFirewall = true;
     dedicatedServer.openFirewall = true;
+
+    extraCompatPackages = with pkgs; [ ];
+    extraPackages = with pkgs; [ ];
   };
 
   # Some programs need SUID wrappers, can be configured further or are
