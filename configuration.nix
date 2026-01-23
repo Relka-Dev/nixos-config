@@ -21,7 +21,7 @@
     firefox
     steam
     vscode
-    jetbrains.idea-ultimate
+    jetbrains.idea
     protonplus
     fastfetch
     krita

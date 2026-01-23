@@ -47,6 +47,7 @@
   };
 
   programs.ssh = {
+    enableDefaultConfig = false;
     enable = true;
     matchBlocks."github.com" = {
       identityFile = "~/.ssh/id_ed25519";
