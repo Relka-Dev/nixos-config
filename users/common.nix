@@ -3,20 +3,10 @@
 {
   home.stateVersion = "25.05";
 
+  # Config Plasma partagée (panels, widgets, etc.)
   programs.plasma = {
     enable = true;
-    workspace = {
-      wallpaper = "/etc/nixos/wallpapers/black-gray.png";
-      colorScheme = "BreezeDark";
-    };
-
-    configFile = {
-      "kdeglobals"."Colors:Window"."AccentColor" = "255,0,0";
-      "kdeglobals"."Colors:View"."AccentColor" = "255,0,0";
-      "kdeglobals"."Colors:Button"."AccentColor" = "255,0,0";
-      "kdeglobals"."Colors:Selection"."AccentColor" = "255,0,0";
-      "kdeglobals"."General"."AccentColor" = "255,0,0";
-    };
+    workspace.wallpaper = "/etc/nixos/wallpapers/black-gray.png";
 
     panels = [
       {
