@@ -17,7 +17,7 @@
     programs.plasma = {
      workspace = {
       colorScheme = "BreezeDark";
-      wallpaper = "/etc/nixos/wallpapers/multicolor.png";
+      wallpaper = lib.mkForce "/etc/nixos/wallpapers/multicolor.png";
       };
       
       configFile = {
