@@ -28,6 +28,7 @@
     qbittorrent-enhanced
     vesktop
     gimp2-with-plugins
+    spotify
   ];
 
   programs.firefox.enable = true;

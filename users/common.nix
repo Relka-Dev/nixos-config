@@ -6,7 +6,10 @@
   # Config Plasma partagée (panels, widgets, etc.)
   programs.plasma = {
     enable = true;
-    workspace.wallpaper = "/etc/nixos/wallpapers/black-gray.png";
+    
+    configFile = {
+      "ksmserverrc"."General"."loginMode" = "emptySession";
+    };
 
     panels = [
       {
