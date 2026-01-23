@@ -38,8 +38,8 @@
 
   programs.git = {
     enable = true;
-    settings{
-      user{
+    settings = {
+      user = {
         userName = "Relka-Dev";
         userEmail = "relka.dev@gmail.com";
       };
