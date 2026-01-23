@@ -26,6 +26,7 @@
     protonplus
     fastfetch
     krita
+    qbittorrent-enhanced
   ];
 
   programs.firefox.enable = true;
