@@ -14,11 +14,21 @@
     };
   };
 
-  outputs = { self, nixpkgs, home-manager, plasma-manager, ... }: {
+  outputs = { self, nixpkgs, home-manager, plasma-manager, ... }: 
+  let
+    system = "x86_64-linux";
+  in {
     nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
-      system = "x86_64-linux";
+      inherit system;
+      
+      # Nécessaire pour accéder à hardware-configuration.nix
+      specialArgs = { inherit self; };
+      
       modules = [
-        ./hardware-configuration.nix
+        # Hardware config en chemin absolu (pas dans Git)
+        ({ config, pkgs, ... }: {
+          imports = [ /etc/nixos/hardware-configuration.nix ];
+        })
         ./configuration.nix
         home-manager.nixosModules.home-manager
         {
