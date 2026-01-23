@@ -11,9 +11,14 @@
   home-manager.users.karelsvbd = { pkgs, ... }: {
     imports = [ ./common.nix ];
 
+    home.file.".face.icon".source = "/etc/nixos/avatars/veks.png"
+
     # Override: thème inspiré montre Fossil (brun chocolat/cuir + or champagne)
     programs.plasma = {
-      workspace.colorScheme = "BreezeDark";
+     workspace = {
+      colorScheme = "BreezeDark";
+      wallpaper = "/etc/nixos/wallpapers/multicolor.png";
+      };
       
       configFile = {
         # Couleurs principales - tons chocolat/brun profond

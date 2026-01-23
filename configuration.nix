@@ -19,7 +19,6 @@
   environment.systemPackages = with pkgs; [
     wget
     firefox
-    discord
     steam
     vscode
     jetbrains.idea-ultimate
@@ -27,6 +26,8 @@
     fastfetch
     krita
     qbittorrent-enhanced
+    vesktop
+    gimp2-with-plugins
   ];
 
   programs.firefox.enable = true;
