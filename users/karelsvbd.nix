@@ -10,7 +10,7 @@
   home-manager.users.karelsvbd = { pkgs, lib, ... }: {
     imports = [ ./common.nix ];
     
-    home.file.".face.icon".source = ../avatars/karelsvbd.png;
+    # home.file.".face.icon".source = ../avatars/karelsvbd.png;
 
     # Override: thème NixOS multicolor (gris anthracite + accents pastels)
     programs.plasma = {
