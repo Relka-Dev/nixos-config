@@ -38,8 +38,12 @@
 
   programs.git = {
     enable = true;
-    userName = "Relka-Dev";
-    userEmail = "relka.dev@gmail.com";
+    settings{
+      user{
+        userName = "Relka-Dev";
+        userEmail = "relka.dev@gmail.com";
+      };
+    };
   };
 
   programs.ssh = {
