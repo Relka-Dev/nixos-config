@@ -5,7 +5,6 @@
     isNormalUser = true;
     description = "Veks";
     extraGroups = [ "networkmanager" "wheel" ];
-    packages = with pkgs; [ kdePackages.kate ];
   };
 
   home-manager.users.veks = { pkgs, ... }: {

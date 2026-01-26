@@ -4,7 +4,6 @@
     isNormalUser = true;
     description = "Karel Vilém Svoboda";
     extraGroups = [ "networkmanager" "wheel" ];
-    packages = with pkgs; [ kdePackages.kate ];
   };
 
   home-manager.users.karelsvbd = { pkgs, lib, ... }: {
