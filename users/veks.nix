@@ -5,6 +5,7 @@
     isNormalUser = true;
     description = "Veks";
     extraGroups = [ "networkmanager" "wheel" ];
+    shell = pkgs.zsh;
   };
 
   home-manager.users.veks = { pkgs, ... }: {

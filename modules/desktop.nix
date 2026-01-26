@@ -16,9 +16,6 @@
   environment.plasma6.excludePackages = with pkgs.kdePackages; [
     elisa         
     okular        
-    khelpcenter    
-    print-manager
-    kwrite
-    xterm  
+    khelpcenter
   ];
 }
