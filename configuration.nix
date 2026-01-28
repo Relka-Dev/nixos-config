@@ -33,6 +33,8 @@
     neovim
     ripgrep
     fd
+    python3
+    python311Packages.pip
   ];
 
   programs.firefox.enable = true;
