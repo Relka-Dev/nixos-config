@@ -29,6 +29,10 @@
     vesktop
     gimp2-with-plugins
     spotify
+    mpv
+    neovim
+    ripgrep
+    fd
   ];
 
   programs.firefox.enable = true;

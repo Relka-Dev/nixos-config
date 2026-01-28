@@ -17,8 +17,26 @@
         hiding = "none";
         height = 38;
         widgets = [
-          "org.kde.plasma.kickoff"
-          "org.kde.plasma.icontasks"
+          {
+            name = "org.kde.plasma.kickoff";
+            config = {
+              "General" = {
+                "icon" = "/etc/nixos/icons/nixos.png";
+              };
+            };
+          }
+          {
+            iconTasks = {
+              launchers = [
+                "applications:org.kde.dolphin.desktop"
+                "applications:systemsettings.desktop"
+                "applications:firefox.desktop"
+                "applications:vesktop.desktop"
+                "applications:spotify.desktop"
+              ];
+            };
+          }
+          
           "org.kde.plasma.panelspacer"
           {
             digitalClock = {
@@ -29,9 +47,27 @@
               date.enable = false;
             };
           }
+
           "org.kde.plasma.panelspacer"
+
+          "org.kde.plasma.systemmonitor.net"
+          "org.kde.plasma.systemmonitor.cpu"
+
+          {
+            name = "org.kde.plasma.systemmonitor";
+            config = {
+              "Appearance" = {
+                "chartType" = "org.kde.ksysguard.linechart"; 
+                "showText" = true;                           
+                "title" = "GPU";
+              };
+              "Sensors" = {
+                "highPrioritySensorIds" = "[\"gpu/all/usage\"]";
+                "totalSensors" = "[\"gpu/all/usage\"]";
+              };
+            };
+          }
           "org.kde.plasma.systemtray"
-          "org.kde.plasma.showdesktop"
         ];
       }
     ];
@@ -114,8 +150,8 @@
     };    
 
     initContent = ''
-      # Tes customisations Zsh ici
       export EDITOR=nvim
     '';
   };
+
 }
