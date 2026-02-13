@@ -12,10 +12,11 @@
   
   services.desktopManager.plasma6.enable = true;
   
-  # Exclure les apps KDE inutiles
   environment.plasma6.excludePackages = with pkgs.kdePackages; [
-    elisa         
-    okular        
-    khelpcenter
+    kate
+    elisa
+    kinfocenter
+    plasma-systemmonitor
+    konsole
   ];
 }

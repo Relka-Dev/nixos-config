@@ -14,8 +14,7 @@
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
   
   nixpkgs.config.allowUnfree = true;
-
-  # Packages globaux
+  
   environment.systemPackages = with pkgs; [
     wget
     firefox
@@ -35,7 +34,15 @@
     fd
     python3
     python311Packages.pip
+    libreoffice-still-unwrapped
+    prismlauncher
+    kdePackages.kdeconnect-kde
+    kitty
   ];
+
+  environment.sessionVariables = {
+    TERMINAL = "kitty";
+  };
 
   programs.firefox.enable = true;
   programs.steam = {
