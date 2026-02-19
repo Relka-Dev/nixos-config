@@ -38,6 +38,7 @@
     prismlauncher
     kdePackages.kdeconnect-kde
     kitty
+    uv
   ];
 
   environment.sessionVariables = {
