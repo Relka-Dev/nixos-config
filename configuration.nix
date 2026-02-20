@@ -15,6 +15,7 @@
   
   nixpkgs.config.allowUnfree = true;
   programs.nix-ld.enable = true;
+  
 
   # Packages globaux
   environment.systemPackages = with pkgs; [
@@ -30,7 +31,22 @@
     vesktop
     gimp2-with-plugins
     spotify
+    mpv
+    neovim
+    ripgrep
+    fd
+    python3
+    python311Packages.pip
+    libreoffice-still-unwrapped
+    prismlauncher
+    kdePackages.kdeconnect-kde
+    kitty
+    uv
   ];
+
+  environment.sessionVariables = {
+    TERMINAL = "kitty";
+  };
 
   programs.firefox.enable = true;
   programs.steam = {
@@ -38,6 +54,7 @@
     remotePlay.openFirewall = true;
     dedicatedServer.openFirewall = true;
   };
+  programs.zsh.enable = true;
 
   system.stateVersion = "25.11";
 }

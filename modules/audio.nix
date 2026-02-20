@@ -23,7 +23,7 @@
                   name = "rnnoise";
                   plugin = "${pkgs.rnnoise-plugin}/lib/ladspa/librnnoise_ladspa.so";
                   label = "noise_suppressor_stereo";
-                  control."VAD Threshold (%)" = 95;
+                  control."VAD Threshold (%)" = 80;
                 }
               ];
             };
@@ -31,6 +31,12 @@
               "node.name" = "capture.rnnoise_source";
               "node.passive" = true;
               "audio.rate" = 48000;
+            };
+
+            "playback.props" = {
+              "node.name" = "rnnoise_source";
+              "media.class" = "Audio/Source";
+              "node.passive" = true;
             };
           };
         }
