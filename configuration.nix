@@ -16,6 +16,8 @@
   nixpkgs.config.allowUnfree = true;
   programs.nix-ld.enable = true;
   
+
+  # Packages globaux
   environment.systemPackages = with pkgs; [
     wget
     firefox
