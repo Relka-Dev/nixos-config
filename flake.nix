@@ -15,10 +15,12 @@
   };
 
   outputs = { self, nixpkgs, home-manager, plasma-manager, ... }: {
-    nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
-      system = "x86_64-linux";
-      modules = [
-        ./hardware-configuration.nix
+          nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
+            system = "x86_64-linux";
+            modules = [
+        (if builtins.pathExists /etc/nixos/hardware-configuration.nix
+         then /etc/nixos/hardware-configuration.nix
+         else throw "hardware-configuration.nix manquant, lance nixos-generate-config")
         ./configuration.nix
         home-manager.nixosModules.home-manager
         {
