@@ -2,7 +2,6 @@
 
 {
   imports = [
-    ./hardware-configuration.nix
     ./modules/system.nix
     ./modules/desktop.nix
     ./modules/audio.nix
@@ -12,10 +11,10 @@
   ];
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
-  
+
   nixpkgs.config.allowUnfree = true;
   programs.nix-ld.enable = true;
-  
+
 
   # Packages globaux
   environment.systemPackages = with pkgs; [
