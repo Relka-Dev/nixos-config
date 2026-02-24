@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, firefox-addons, ... }:
 {
   home.stateVersion = "25.05";
 
@@ -125,6 +125,17 @@
         userName = "Relka-Dev";
         userEmail = "relka.dev@gmail.com";
       };
+    };
+  };
+
+  programs.firefox = {
+    enable = true;
+    profiles.default = {
+      extensions.packages = with firefox-addons.packages.${pkgs.system}; [
+        sponsorblock
+        ublock-origin
+        privacy-badger
+      ];
     };
   };
 

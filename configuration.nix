@@ -25,7 +25,6 @@
     steam
     vscode
     jetbrains.idea
-    protonplus
     fastfetch
     krita
     qbittorrent-enhanced
@@ -37,12 +36,9 @@
     ripgrep
     fd
     python3
-    python311Packages.pip
-    libreoffice-still-unwrapped
-    prismlauncher
-    kdePackages.kdeconnect-kde
     kitty
     uv
+    proton-pass
   ];
 
   environment.sessionVariables = {
