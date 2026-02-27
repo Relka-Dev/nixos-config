@@ -39,6 +39,7 @@
     kitty
     uv
     proton-pass
+    nodejs_24
   ];
 
   environment.sessionVariables = {

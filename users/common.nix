@@ -135,6 +135,7 @@
         sponsorblock
         ublock-origin
         privacy-badger
+        return-youtube-dislikes
       ];
     };
   };
