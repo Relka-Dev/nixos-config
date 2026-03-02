@@ -21,6 +21,7 @@
   };
 
   services.printing.enable = true;
+  programs.niri.enable = true;
 
   services.power-profiles-daemon.enable = true;
 

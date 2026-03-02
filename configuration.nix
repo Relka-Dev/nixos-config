@@ -6,6 +6,7 @@
     ./modules/desktop.nix
     ./modules/audio.nix
     ./modules/maintenance.nix
+    ./modules/niri.nix
     ./users/veks.nix
     ./users/karelsvbd.nix
   ];
@@ -40,6 +41,18 @@
     uv
     proton-pass
     nodejs_24
+    btop-rocm
+    godot
+    xwayland-satellite
+    waybar
+    fuzzel
+    swaybg
+    nerd-fonts.jetbrains-mono
+    swaylock
+    mako
+    kanshi
+    mpvpaper
+    waypaper
   ];
 
   environment.sessionVariables = {
