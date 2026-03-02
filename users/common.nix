@@ -136,6 +136,7 @@
         ublock-origin
         privacy-badger
         return-youtube-dislikes
+        hide-youtube-shorts
       ];
     };
   };
