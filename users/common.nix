@@ -2,122 +2,6 @@
 {
   home.stateVersion = "25.05";
 
-  programs.plasma = {
-    enable = true;
-
-    kwin = {
-      effects = {
-        wobblyWindows.enable = false;
-        blur.enable = true;
-        translucency.enable = false;
-        cube.enable = false;
-        dimInactive.enable = false;
-      };
-
-      virtualDesktops = {
-        number = 4;
-        rows = 1;
-      };
-    };
-
-    configFile = {
-      "ksmserverrc"."General"."loginMode" = "emptySession";
-
-      "kdeglobals"."KDE"."AnimationDurationFactor" = "0.5";
-
-      "kwinrc"."Compositing"."Enabled" = true;
-      "kwinrc"."Compositing"."Backend" = "OpenGL";
-      "kwinrc"."Compositing"."GLCore" = true;
-      "kwinrc"."Compositing"."LatencyPolicy" = "Low";
-
-      "kwinrc"."Effect-Blur"."BlurStrength" = 3;
-      "kwinrc"."Effect-Blur"."NoiseStrength" = 0;
-
-      "kwinrc"."Plugins"."fadeEnabled" = true;
-      "kwinrc"."Effect-Fade"."FadeInTime" = 100;
-      "kwinrc"."Effect-Fade"."FadeOutTime" = 100;
-
-      "kwinrc"."Plugins"."slideEnabled" = true;
-      "kwinrc"."Effect-Slide"."Duration" = 150;
-      "kwinrc"."Effect-Slide"."HorizontalGap" = 0;
-      "kwinrc"."Effect-Slide"."VerticalGap" = 0;
-
-      "kwinrc"."Plugins"."magiclampEnabled" = false;
-      "kwinrc"."Plugins"."fallapartEnabled" = false;
-      "kwinrc"."Plugins"."glideEnabled" = false;
-      "kwinrc"."Plugins"."scaleEnabled" = false;
-      "kwinrc"."Plugins"."slidebackEnabled" = false;
-
-      "kwinrc"."Effect-DesktopGrid"."Animation" = "0";
-
-      "kglobalshortcutsrc"."kwin"."Window Maximize" = "Meta+Up,Meta+PgUp,Maximiser la fenêtre";
-      "kglobalshortcutsrc"."kwin"."Window Minimize" = "Meta+Down,Meta+PgDown,Réduire la fenêtre";
-    };
-
-    panels = [
-      {
-        location = "top";
-        screen = "all";
-        floating = false;
-        hiding = "none";
-        height = 38;
-        widgets = [
-          {
-            name = "org.kde.plasma.kickoff";
-            config = {
-              "General" = {
-                "icon" = "/etc/nixos/icons/nixos.png";
-              };
-            };
-          }
-          {
-            iconTasks = {
-              launchers = [
-                "applications:org.kde.dolphin.desktop"
-                "applications:systemsettings.desktop"
-                "applications:firefox.desktop"
-                "applications:vesktop.desktop"
-                "applications:spotify.desktop"
-              ];
-            };
-          }
-
-          "org.kde.plasma.panelspacer"
-          {
-            digitalClock = {
-              time = {
-                format = "24h";
-                showSeconds = "never";
-              };
-              date.enable = false;
-            };
-          }
-
-          "org.kde.plasma.panelspacer"
-
-          "org.kde.plasma.systemmonitor.net"
-          "org.kde.plasma.systemmonitor.cpu"
-
-          {
-            name = "org.kde.plasma.systemmonitor";
-            config = {
-              "Appearance" = {
-                chartType = "org.kde.ksysguard.linechart";
-                showText = true;
-                title = "GPU";
-              };
-              "Sensors" = {
-                highPrioritySensorIds = "[\"gpu/all/usage\"]";
-                totalSensors = "[\"gpu/all/usage\"]";
-              };
-            };
-          }
-          "org.kde.plasma.systemtray"
-        ];
-      }
-    ];
-  };
-
   programs.git = {
     enable = true;
     settings = {
@@ -170,37 +54,26 @@
       ll = "ls -lah";
       la = "ls -A";
       l = "ls -CF";
-
-      # NixOS stuff
       update = "sudo nixos-rebuild switch";
       test = "sudo nixos-rebuild test";
       rollback = "sudo nixos-rebuild switch --rollback";
       cleanup = "sudo nix-collect-garbage -d";
       generations = "sudo nix-env --list-generations --profile /nix/var/nix/profiles/system";
-
-      # git
       gs = "git status";
       ga = "git add";
       gc = "git commit";
       gp = "git push";
       gl = "git log --oneline --graph --decorate";
       gd = "git diff";
-
       ".." = "cd ..";
       "..." = "cd ../..";
       "...." = "cd ../../..";
-
-      # Systeme
       ports = "netstat -tulanp";
       myip = "curl ifconfig.me";
-
-      # Django
       dj = "python manage.py";
       djrun = "python manage.py runserver";
       djmig = "python manage.py migrate";
       djmake = "python manage.py makemigrations";
-
-      # Recherche
       grep = "grep --color=auto";
       fhere = "find . -name";
     };
@@ -212,32 +85,21 @@
 
   programs.vscode = {
     enable = true;
-
     profiles.default = {
       extensions = with pkgs.vscode-extensions; [
         ms-python.python
         ms-python.vscode-pylance
-
         eamodio.gitlens
-
-        # Nix
         bbenoist.nix
         jnoortheen.nix-ide
-
-        # Icônes
         pkief.material-icon-theme
-
-        # Utilitaires
         esbenp.prettier-vscode
         dbaeumer.vscode-eslint
         ms-vscode-remote.remote-ssh
-
-        # Thème
         github.github-vscode-theme
       ];
 
       userSettings = {
-        # Éditeur
         "editor.fontSize" = 14;
         "editor.fontFamily" = "'JetBrains Mono', 'monospace'";
         "editor.tabSize" = 4;
@@ -246,36 +108,67 @@
         "editor.minimap.enabled" = true;
         "editor.formatOnSave" = true;
         "editor.bracketPairColorization.enabled" = true;
-
-        # Icônes
         "workbench.iconTheme" = "material-icon-theme";
-
-        # Terminal
         "terminal.integrated.fontFamily" = "JetBrains Mono";
         "terminal.integrated.fontSize" = 13;
-
-        # Fichiers
         "files.autoSave" = "onFocusChange";
         "files.trimTrailingWhitespace" = true;
         "files.insertFinalNewline" = true;
-
-        # Python
         "python.defaultInterpreterPath" = "${pkgs.python3}/bin/python";
         "[python]" = {
           "editor.tabSize" = 4;
         };
-
-        # Git
         "git.enableSmartCommit" = true;
         "git.autofetch" = true;
-
-        # Nix
         "nix.enableLanguageServer" = true;
         "nix.serverPath" = "${pkgs.nil}/bin/nil";
-
-        # Télémétrie
         "telemetry.telemetryLevel" = "off";
       };
     };
   };
+
+  # Config niri partagée — DMS gère keybinds/thèmes/layout via ses includes
+  xdg.configFile."niri/config.kdl".text = ''
+    input {
+      keyboard {
+        repeat-delay 200
+        repeat-rate 35
+        xkb {
+          layout "ch"
+          variant "fr"
+        }
+      }
+      touchpad {
+        tap
+        natural-scroll
+      }
+      focus-follows-mouse max-scroll-amount="0%"
+    }
+
+    prefer-no-csd
+
+    screenshot-path "~/Pictures/Screenshots/%Y-%m-%d_%H-%M-%S.png"
+
+    layer-rule {
+      match namespace="^quickshell$"
+      place-within-backdrop true
+    }
+    layer-rule {
+      match namespace="dms:blurwallpaper"
+      place-within-backdrop true
+    }
+
+    // Includes gérés par DMS — générés via `dms setup` au premier login
+    include "dms/binds.kdl"
+    include "dms/colors.kdl"
+    include "dms/layout.kdl"
+    include "dms/alttab.kdl"
+    include "dms/outputs.kdl"
+    include "dms/cursor.kdl"
+    include "dms/windowrules.kdl"
+    include "dms/wpblur.kdl"
+  '';
+
+  # Évite que niri plante au premier boot avant `dms setup`
+  xdg.configFile."niri/dms/.keep".text = "";
 }
