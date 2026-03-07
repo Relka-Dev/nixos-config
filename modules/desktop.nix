@@ -6,10 +6,8 @@
 }:
 
 {
-  # ── Niri compositor ──────────────────────────────────────────────────────────
   programs.niri.enable = true;
 
-  # ── DMS desktop shell ────────────────────────────────────────────────────────
   programs.dms-shell = {
     enable = true;
     systemd = {
@@ -23,47 +21,20 @@
     enableClipboardPaste = true;
   };
 
-  # ── Display manager : greetd + tuigreet ──────────────────────────────────────
-  services.greetd = {
+  # ── DankGreeter (remplace greetd + tuigreet) ─────────────────────────────────
+  services.displayManager.dms-greeter = {
     enable = true;
-    settings = {
-      default_session = {
-        command = ''
-          ${pkgs.tuigreet}/bin/tuigreet \
-            --time \
-            --sessions ${config.services.displayManager.sessionData.desktops}/share/wayland-sessions \
-            --remember \
-            --remember-user-session
-        '';
-        user = "greeter";
-      };
-    };
+    compositor.name = "niri";
+    configHome = "/home/veks"; # user principal pour sync du thème
   };
 
-  systemd.tmpfiles.rules = [
-    "d '/var/cache/tuigreet' - greeter greeter - -"
-  ];
-
-  systemd.services.greetd.serviceConfig = {
-    Type = "idle";
-    StandardInput = "tty";
-    StandardOutput = "tty";
-    StandardError = "journal";
-    TTYReset = true;
-    TTYVHangup = true;
-    TTYVTDisallocate = true;
-  };
-
-  # ── Sécurité ─────────────────────────────────────────────────────────────────
   security.polkit.enable = true;
 
-  # ── Variables Wayland ────────────────────────────────────────────────────────
   environment.sessionVariables = {
     NIXOS_OZONE_WL = "1";
     TERMINAL = "kitty";
   };
 
-  # ── Paquets système ──────────────────────────────────────────────────────────
   environment.systemPackages = with pkgs; [
     xwayland-satellite
     kitty
