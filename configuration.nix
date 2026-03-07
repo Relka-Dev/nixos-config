@@ -18,7 +18,6 @@
   nixpkgs.config.allowUnfree = true;
   programs.nix-ld.enable = true;
 
-  # Packages globaux
   environment.systemPackages = with pkgs; [
     wget
     firefox
@@ -40,10 +39,6 @@
     uv
     proton-pass
   ];
-
-  environment.sessionVariables = {
-    TERMINAL = "kitty";
-  };
 
   programs.firefox.enable = true;
   programs.steam = {
