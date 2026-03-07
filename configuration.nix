@@ -1,4 +1,9 @@
-{ config, pkgs, ... }:
+{
+  config,
+  pkgs,
+  zen-browser,
+  ...
+}:
 
 {
   imports = [
@@ -20,7 +25,7 @@
 
   environment.systemPackages = with pkgs; [
     wget
-    firefox
+    zen-browser.packages.${pkgs.system}.default
     steam
     vscode
     jetbrains.idea
@@ -40,7 +45,6 @@
     proton-pass
   ];
 
-  programs.firefox.enable = true;
   programs.steam = {
     enable = true;
     remotePlay.openFirewall = true;
