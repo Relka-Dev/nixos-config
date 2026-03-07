@@ -25,12 +25,7 @@
       nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         modules = [
-          (
-            if builtins.pathExists /etc/nixos/hardware-configuration.nix then
-              /etc/nixos/hardware-configuration.nix
-            else
-              throw "hardware-configuration.nix manquant, lance nixos-generate-config"
-          )
+          ./hardware-configuration.nix
           ./configuration.nix
           home-manager.nixosModules.home-manager
           {

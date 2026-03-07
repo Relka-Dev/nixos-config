@@ -126,49 +126,4 @@
       };
     };
   };
-
-  # Config niri partagée — DMS gère keybinds/thèmes/layout via ses includes
-  xdg.configFile."niri/config.kdl".text = ''
-    input {
-      keyboard {
-        repeat-delay 200
-        repeat-rate 35
-        xkb {
-          layout "ch"
-          variant "fr"
-        }
-      }
-      touchpad {
-        tap
-        natural-scroll
-      }
-      focus-follows-mouse max-scroll-amount="0%"
-    }
-
-    prefer-no-csd
-
-    screenshot-path "~/Pictures/Screenshots/%Y-%m-%d_%H-%M-%S.png"
-
-    layer-rule {
-      match namespace="^quickshell$"
-      place-within-backdrop true
-    }
-    layer-rule {
-      match namespace="dms:blurwallpaper"
-      place-within-backdrop true
-    }
-
-    // Includes gérés par DMS — générés via `dms setup` au premier login
-    include "dms/binds.kdl"
-    include "dms/colors.kdl"
-    include "dms/layout.kdl"
-    include "dms/alttab.kdl"
-    include "dms/outputs.kdl"
-    include "dms/cursor.kdl"
-    include "dms/windowrules.kdl"
-    include "dms/wpblur.kdl"
-  '';
-
-  # Évite que niri plante au premier boot avant `dms setup`
-  xdg.configFile."niri/dms/.keep".text = "";
 }
