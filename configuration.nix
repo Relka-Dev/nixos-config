@@ -32,9 +32,7 @@
     fastfetch
     krita
     qbittorrent-enhanced
-    vesktop
     gimp2-with-plugins
-    spotify
     mpv
     neovim
     ripgrep

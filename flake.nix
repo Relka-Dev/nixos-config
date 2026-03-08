@@ -15,6 +15,10 @@
       url = "github:nix-community/nixvim";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    spicetify-nix = {
+      url = "github:Gerg-L/spicetify-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -24,12 +28,13 @@
       home-manager,
       zen-browser,
       nixvim,
+      spicetify-nix,
       ...
-    }:
+    }@inputs:
     {
       nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
-        specialArgs = { inherit zen-browser nixvim; };
+        specialArgs = { inherit zen-browser nixvim inputs; };
         modules = [
           ./hardware-configuration.nix
           ./configuration.nix
@@ -37,7 +42,8 @@
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.extraSpecialArgs = { inherit zen-browser nixvim; };
+            home-manager.backupFileExtension = "bak";
+            home-manager.extraSpecialArgs = { inherit zen-browser nixvim inputs; };
           }
         ];
       };

@@ -1,7 +1,103 @@
-{ pkgs, nixvim, ... }:
 {
-  imports = [ nixvim.homeManagerModules.nixvim ];
+  pkgs,
+  nixvim,
+  inputs,
+  ...
+}:
+{
+  imports = [
+    nixvim.homeManagerModules.nixvim
+    inputs.spicetify-nix.homeManagerModules.spicetify
+  ];
+
   home.stateVersion = "25.05";
+
+  programs.spicetify =
+    let
+      spicePkgs = inputs.spicetify-nix.legacyPackages.${pkgs.stdenv.hostPlatform.system};
+    in
+    {
+      enable = true;
+      theme = spicePkgs.themes.text;
+      colorScheme = "custom";
+
+      customColorScheme = {
+        text = "FFFFFF";
+        subtext = "AAAAAA";
+        sidebar-text = "FFFFFF";
+        main = "000000";
+        sidebar = "0A0A0A";
+        player = "111111";
+        card = "111111";
+        shadow = "000000";
+        selected-row = "222222";
+        button = "FFFFFF";
+        button-active = "CCCCCC";
+        button-disabled = "555555";
+        tab-active = "FFFFFF";
+        notification = "FFFFFF";
+        notification-error = "AA0000";
+        misc = "FFFFFF";
+      };
+    };
+
+  home.packages = [ pkgs.vesktop ];
+
+  xdg.configFile."vesktop/settings.json".text = builtins.toJSON {
+    discordBranch = "stable";
+    minimizeToTray = true;
+    arRPC = true;
+    customTitleBar = false;
+  };
+
+  xdg.configFile."vesktop/settings/settings.json".text = builtins.toJSON {
+    useQuickCss = true;
+    enabledThemes = [ "system24-red.css" ];
+    plugins = {
+      BetterFolders = {
+        enabled = true;
+      };
+      MemberCount = {
+        enabled = true;
+      };
+      WebScreenShareFixes = {
+        enabled = true;
+      };
+      ClientTheme = {
+        enabled = true;
+        color = "cc0000";
+      };
+    };
+  };
+
+  xdg.configFile."vesktop/themes/system24-red.css".text = ''
+    @import url('https://refact0r.github.io/system24/build/system24.css');
+
+    :root, #app-mount {
+      --purple-1: oklch(95% 0 0);
+      --purple-2: oklch(90% 0 0);
+      --purple-3: oklch(85% 0 0);
+      --purple-4: oklch(80% 0 0);
+      --purple-5: oklch(75% 0 0);
+
+      --accent-1: oklch(95% 0 0);
+      --accent-2: oklch(90% 0 0);
+      --accent-3: oklch(85% 0 0);
+      --accent-4: oklch(80% 0 0);
+      --accent-5: oklch(75% 0 0);
+
+      --bg-1: oklch(18% 0 0);
+      --bg-2: oklch(13% 0 0);
+      --bg-3: oklch(10% 0 0);
+      --bg-4: oklch(6% 0 0);
+
+      --text-1: oklch(98% 0 0);
+      --text-2: oklch(85% 0 0);
+      --text-3: oklch(72% 0 0);
+      --text-4: oklch(55% 0 0);
+      --text-5: oklch(38% 0 0);
+    }
+  '';
 
   programs.nixvim = {
     enable = true;
