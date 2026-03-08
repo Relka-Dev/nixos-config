@@ -1,4 +1,9 @@
-{ config, pkgs, ... }:
+{
+  config,
+  pkgs,
+  zen-browser,
+  ...
+}:
 
 {
   imports = [
@@ -18,19 +23,16 @@
   nixpkgs.config.allowUnfree = true;
   programs.nix-ld.enable = true;
 
-  # Packages globaux
   environment.systemPackages = with pkgs; [
     wget
-    firefox
+    zen-browser.packages.${pkgs.system}.default
     steam
     vscode
     jetbrains.idea
     fastfetch
     krita
     qbittorrent-enhanced
-    vesktop
     gimp2-with-plugins
-    spotify
     mpv
     neovim
     ripgrep
@@ -39,13 +41,11 @@
     kitty
     uv
     proton-pass
+    jetbrains-toolbox
+    scala
+    sbt
   ];
 
-  environment.sessionVariables = {
-    TERMINAL = "kitty";
-  };
-
-  programs.firefox.enable = true;
   programs.steam = {
     enable = true;
     remotePlay.openFirewall = true;

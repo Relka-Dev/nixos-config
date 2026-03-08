@@ -1,47 +1,49 @@
 {
-  description = "NixOS configuration";
+  description = "NixOS configuration — niri + DMS";
+
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    plasma-manager = {
-      url = "github:nix-community/plasma-manager";
+    zen-browser = {
+      url = "github:0xc000022070/zen-browser-flake";
       inputs.nixpkgs.follows = "nixpkgs";
-      inputs.home-manager.follows = "home-manager";
     };
-    firefox-addons = {
-      url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
+    nixvim = {
+      url = "github:nix-community/nixvim";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    spicetify-nix = {
+      url = "github:Gerg-L/spicetify-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
+
   outputs =
     {
       self,
       nixpkgs,
       home-manager,
-      plasma-manager,
-      firefox-addons,
+      zen-browser,
+      nixvim,
+      spicetify-nix,
       ...
-    }:
+    }@inputs:
     {
       nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
+        specialArgs = { inherit zen-browser nixvim inputs; };
         modules = [
-          (
-            if builtins.pathExists /etc/nixos/hardware-configuration.nix then
-              /etc/nixos/hardware-configuration.nix
-            else
-              throw "hardware-configuration.nix manquant, lance nixos-generate-config"
-          )
+          ./hardware-configuration.nix
           ./configuration.nix
           home-manager.nixosModules.home-manager
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.extraSpecialArgs = { inherit firefox-addons; };
-            home-manager.sharedModules = [ plasma-manager.homeModules.plasma-manager ];
+            home-manager.backupFileExtension = "bak";
+            home-manager.extraSpecialArgs = { inherit zen-browser nixvim inputs; };
           }
         ];
       };
