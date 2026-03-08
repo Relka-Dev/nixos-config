@@ -42,6 +42,8 @@
     uv
     proton-pass
     jetbrains-toolbox
+    scala
+    sbt
   ];
 
   programs.steam = {

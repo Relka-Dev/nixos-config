@@ -532,18 +532,30 @@
   programs.vscode = {
     enable = true;
     profiles.default = {
-      extensions = with pkgs.vscode-extensions; [
-        ms-python.python
-        ms-python.vscode-pylance
-        eamodio.gitlens
-        bbenoist.nix
-        jnoortheen.nix-ide
-        pkief.material-icon-theme
-        esbenp.prettier-vscode
-        dbaeumer.vscode-eslint
-        ms-vscode-remote.remote-ssh
-        github.github-vscode-theme
-      ];
+      extensions =
+        with pkgs.vscode-extensions;
+        [
+          ms-python.python
+          ms-python.vscode-pylance
+          eamodio.gitlens
+          bbenoist.nix
+          jnoortheen.nix-ide
+          pkief.material-icon-theme
+          esbenp.prettier-vscode
+          dbaeumer.vscode-eslint
+          ms-vscode-remote.remote-ssh
+          github.github-vscode-theme
+          scala-lang.scala
+          scalameta.metals
+        ]
+        ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
+          {
+            name = "vercel-theme";
+            publisher = "achaq";
+            version = "1.0.3";
+            sha256 = "sha256-pMaGFuAjSei4SoLdJZM6YBiL1N4JDV3j9Lr9H/KHl/4=";
+          }
+        ];
 
       userSettings = {
         "editor.fontSize" = 14;
@@ -554,6 +566,7 @@
         "editor.minimap.enabled" = true;
         "editor.formatOnSave" = true;
         "editor.bracketPairColorization.enabled" = true;
+        "workbench.colorTheme" = "Vercel Theme";
         "workbench.iconTheme" = "material-icon-theme";
         "terminal.integrated.fontFamily" = "JetBrains Mono";
         "terminal.integrated.fontSize" = 13;
