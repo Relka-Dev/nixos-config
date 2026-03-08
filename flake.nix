@@ -11,6 +11,10 @@
       url = "github:0xc000022070/zen-browser-flake";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nixvim = {
+      url = "github:nix-community/nixvim";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -19,12 +23,13 @@
       nixpkgs,
       home-manager,
       zen-browser,
+      nixvim,
       ...
     }:
     {
       nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
-        specialArgs = { inherit zen-browser; };
+        specialArgs = { inherit zen-browser nixvim; };
         modules = [
           ./hardware-configuration.nix
           ./configuration.nix
@@ -32,6 +37,7 @@
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
+            home-manager.extraSpecialArgs = { inherit zen-browser nixvim; };
           }
         ];
       };

@@ -26,9 +26,5 @@
       imports = [ ./common.nix ];
 
       home.file.".face.icon".source = ../avatars/karelsvbd.png;
-
-      programs.vscode.profiles.default.userSettings = {
-        "workbench.colorTheme" = "GitHub Dark Dimmed";
-      };
     };
 }

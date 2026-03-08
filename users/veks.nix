@@ -16,9 +16,5 @@
       imports = [ ./common.nix ];
 
       home.file.".face.icon".source = ../avatars/veks.png;
-
-      programs.vscode.profiles.default.userSettings = {
-        "workbench.colorTheme" = "GitHub Dark Default";
-      };
     };
 }
