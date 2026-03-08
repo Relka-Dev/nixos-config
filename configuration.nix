@@ -43,6 +43,7 @@
     kitty
     uv
     proton-pass
+    jetbrains-toolbox
   ];
 
   programs.steam = {
