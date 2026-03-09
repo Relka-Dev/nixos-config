@@ -530,59 +530,73 @@
   };
 
   programs.vscode = {
-    enable = true;
-    profiles.default = {
-      extensions =
-        with pkgs.vscode-extensions;
-        [
-          ms-python.python
-          ms-python.vscode-pylance
-          eamodio.gitlens
-          bbenoist.nix
-          jnoortheen.nix-ide
-          pkief.material-icon-theme
-          esbenp.prettier-vscode
-          dbaeumer.vscode-eslint
-          ms-vscode-remote.remote-ssh
-          github.github-vscode-theme
-          scala-lang.scala
-          scalameta.metals
-        ]
-        ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
-          {
-            name = "vercel-theme";
-            publisher = "achaq";
-            version = "1.0.3";
-            sha256 = "sha256-pMaGFuAjSei4SoLdJZM6YBiL1N4JDV3j9Lr9H/KHl/4=";
-          }
-        ];
+  enable = true;
+  package = pkgs.vscode.fhsWithPackages (ps: with ps; [
+    temurin-bin-17
+    scala_3
+    sbt
+    metals
+    coursier
+    pkgs.python3
+    pkgs.nil
+    pkgs.nodePackages.typescript-language-server
+    pkgs.nodePackages.vscode-langservers-extracted
+    pkgs.nodePackages.prettier
+    pkgs.ruff
+  ]);
+  profiles.default = {
+    extensions =
+      with pkgs.vscode-extensions;
+      [
+        ms-python.python
+        ms-python.vscode-pylance
+        eamodio.gitlens
+        bbenoist.nix
+        jnoortheen.nix-ide
+        pkief.material-icon-theme
+        esbenp.prettier-vscode
+        dbaeumer.vscode-eslint
+        ms-vscode-remote.remote-ssh
+        github.github-vscode-theme
+        scala-lang.scala
+        scalameta.metals
+      ]
+      ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
+        {
+          name = "vercel-theme";
+          publisher = "achaq";
+          version = "1.0.3";
+          sha256 = "sha256-pMaGFuAjSei4SoLdJZM6YBiL1N4JDV3j9Lr9H/KHl/4=";
+        }
+      ];
 
-      userSettings = {
-        "editor.fontSize" = 14;
-        "editor.fontFamily" = "'JetBrains Mono', 'monospace'";
+    userSettings = {
+      "editor.fontSize" = 14;
+      "editor.fontFamily" = "'JetBrains Mono', 'monospace'";
+      "editor.tabSize" = 4;
+      "editor.insertSpaces" = true;
+      "editor.wordWrap" = "on";
+      "editor.minimap.enabled" = true;
+      "editor.formatOnSave" = true;
+      "editor.bracketPairColorization.enabled" = true;
+      "workbench.colorTheme" = "Vercel Theme";
+      "workbench.iconTheme" = "material-icon-theme";
+      "terminal.integrated.fontFamily" = "JetBrains Mono";
+      "terminal.integrated.fontSize" = 13;
+      "files.autoSave" = "onFocusChange";
+      "files.trimTrailingWhitespace" = true;
+      "files.insertFinalNewline" = true;
+      "python.defaultInterpreterPath" = "${pkgs.python3}/bin/python";
+      "[python]" = {
         "editor.tabSize" = 4;
-        "editor.insertSpaces" = true;
-        "editor.wordWrap" = "on";
-        "editor.minimap.enabled" = true;
-        "editor.formatOnSave" = true;
-        "editor.bracketPairColorization.enabled" = true;
-        "workbench.colorTheme" = "Vercel Theme";
-        "workbench.iconTheme" = "material-icon-theme";
-        "terminal.integrated.fontFamily" = "JetBrains Mono";
-        "terminal.integrated.fontSize" = 13;
-        "files.autoSave" = "onFocusChange";
-        "files.trimTrailingWhitespace" = true;
-        "files.insertFinalNewline" = true;
-        "python.defaultInterpreterPath" = "${pkgs.python3}/bin/python";
-        "[python]" = {
-          "editor.tabSize" = 4;
-        };
-        "git.enableSmartCommit" = true;
-        "git.autofetch" = true;
-        "nix.enableLanguageServer" = true;
-        "nix.serverPath" = "${pkgs.nil}/bin/nil";
-        "telemetry.telemetryLevel" = "off";
       };
+      "git.enableSmartCommit" = true;
+      "git.autofetch" = true;
+      "nix.enableLanguageServer" = true;
+      "nix.serverPath" = "${pkgs.nil}/bin/nil";
+      "telemetry.telemetryLevel" = "off";
+      "metals.javaHome" = "${pkgs.temurin-bin-17}";
     };
   };
+};
 }
