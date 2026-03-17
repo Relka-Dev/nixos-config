@@ -6,15 +6,9 @@
     efi.canTouchEfiVariables = true;
   };
 
-  networking.networkmanager = {
-    enable = true;
-    wifi.backend = "iwd";
-  };
-
-  networking.wireless.iwd = {
-    enable = true;
-    settings.Settings.AutoConnect = true;
-  };
+  networking.networkmanager.enable = true;
+  services.gnome.gnome-keyring.enable = true;
+  security.pam.services.login.enableGnomeKeyring = true;
 
   time.timeZone = "Europe/Zurich";
   i18n.defaultLocale = "en_US.UTF-8";
