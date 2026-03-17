@@ -44,6 +44,11 @@
     jetbrains-toolbox
     scala
     sbt
+    #networkmanagerapplet
+    cbonsai
+    meson
+    nodejs_24
+    ffmpeg_7-headless
   ];
 
   programs.steam = {

@@ -25,6 +25,10 @@
     {
       imports = [ ./common.nix ];
 
+      xdg.mimeApps.defaultApplications = {
+        "application/pdf" = "zen-browser";
+      };
+
       home.file.".face.icon".source = ../avatars/karelsvbd.png;
     };
 }
