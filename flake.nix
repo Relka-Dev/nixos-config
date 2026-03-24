@@ -34,7 +34,9 @@
     {
       nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
-        specialArgs = { inherit zen-browser nixvim inputs; };
+        specialArgs = {
+          inherit zen-browser nixvim inputs;
+        };
         modules = [
           ./hardware-configuration.nix
           ./configuration.nix
