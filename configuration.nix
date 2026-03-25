@@ -24,39 +24,31 @@
   programs.nix-ld.enable = true;
 
   environment.systemPackages = with pkgs; [
-    # CLI tools
     wget
-    fastfetch
-    uv
-    scala
-    sbt
-    fd
-    cbonsai
-    nodejs_24
-    ffmpeg_7-headless
-    neovim
-    ripgrep
-    meson
-    python3
-
-    # IDEAs
-    vscode
-    jetbrains.idea
-    jetbrains-toolbox
-
-    # Apps
     zen-browser.packages.${pkgs.system}.default
     steam
+    vscode
+    jetbrains.idea
+    fastfetch
     krita
     qbittorrent-enhanced
     gimp2-with-plugins
     mpv
+    neovim
+    ripgrep
+    fd
+    python3
     kitty
+    uv
     proton-pass
+    jetbrains-toolbox
+    scala
+    sbt
     #networkmanagerapplet
-    godot_4
-    super-productivity
-    gh
+    cbonsai
+    meson
+    nodejs_24
+    ffmpeg_7-headless
   ];
 
   programs.steam = {

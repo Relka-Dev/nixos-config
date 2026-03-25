@@ -9,6 +9,7 @@
     persistent = true;
     flake = "/etc/nixos";
     flags = [
+      "--no-write-lock-file"
       "-L"
     ];
   };

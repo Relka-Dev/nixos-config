@@ -518,7 +518,6 @@
       myip = "curl ifconfig.me";
       dj = "python manage.py";
       djrun = "python manage.py runserver";
-      gray-player = "/etc/nixos/videos-ascii/gray-player";
       djmig = "python manage.py migrate";
       djmake = "python manage.py makemigrations";
       grep = "grep --color=auto";
@@ -564,8 +563,6 @@
           github.github-vscode-theme
           scala-lang.scala
           scalameta.metals
-          github.copilot
-          github.copilot-chat
         ]
         ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
           {
