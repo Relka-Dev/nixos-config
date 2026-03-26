@@ -49,6 +49,8 @@
     meson
     nodejs_24
     ffmpeg_7-headless
+    gh
+    github-copilot-cli
   ];
 
   programs.steam = {

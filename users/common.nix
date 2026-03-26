@@ -2,6 +2,7 @@
   pkgs,
   nixvim,
   inputs,
+  lib,
   ...
 }:
 {
@@ -27,7 +28,7 @@
         sidebar-text = "FFFFFF";
         main = "000000";
         sidebar = "0A0A0A";
-        player = "111111";
+        #player = "111111";
         card = "111111";
         shadow = "000000";
         selected-row = "222222";
@@ -563,6 +564,8 @@
           github.github-vscode-theme
           scala-lang.scala
           scalameta.metals
+          github.copilot
+          github.copilot-chat
         ]
         ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
           {
@@ -600,6 +603,20 @@
         "telemetry.telemetryLevel" = "off";
         "metals.javaHome" = "${pkgs.temurin-bin-17}";
       };
+    };
+  };
+
+  programs.kitty = lib.mkForce {
+    enable = true;
+    settings = {
+      confirm_os_window_close = 0;
+      dynamic_background_opacity = true;
+      enable_audio_bell = false;
+      mouse_hide_wait = "-1.0";
+      window_padding_width = 10;
+      background_opacity = "0.95";
+      background_blur = 5;
+      window_logo_path = "/etc/nixos/icons/nixos.png";
     };
   };
 }
